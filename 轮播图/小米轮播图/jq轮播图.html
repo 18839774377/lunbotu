@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #screen {
+      width: 800px;
+      margin: 60px auto;
+      position: relative;
+      height: 300px;
+    }
+
+    ol,
+    ul {
+      list-style: none;
+    }
+
+    ol {
+      position: absolute;
+      right: 10px;
+      bottom: 5px;
+      z-index: 2
+    }
+
+    ol>li {
+      float: left;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      margin-left: 5px;
+    }
+
+    ol>li.current {
+      background-color: gray;
+    }
+
+    ul>li {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transition: all 1s linear;
+    }
+
+    ul>li img {
+      width: 800px;
+    }
+
+    .arr-l,
+    .arr-r {
+      position: absolute;
+      background: url(images/icon-slides.png)no-repeat;
+      width: 42px;
+      height: 69px;
+      top: 50%;
+      margin-top: -29px;
+      z-index: 2;
+    }
+
+    .arr-l {
+      left: 0;
+      background-position: -84px;
+    }
+
+    .arr-l:hover {
+      background-position: 0px;
+    }
+
+    .arr-r {
+      background-position: right;
+      right: 0;
+    }
+
+    .arr-r:hover {
+      background-position: -42px;
+    }
+  </style>
+  <script src="js/jquery-1.12.2.js"></script>
+  <script>
+    $(function () {
+      var $screen = $('#screen');
+      //创建index 用于保存图片索引
+      var index = 0;
+      //用于保存图片的数量
+      var $len = $('ul').children().length;
+      // 创建ol
+      var ol = $('#screen').append('<ol></ol>');
+      // 根据图片数量创建小圆点
+      for (var i = 0; i < $len; i++) {
+        $('ol').append('<li></li>');
+      }
+      //设置 默认显示第一张
+      $('ul > li:eq(' + index + ')').siblings().css({
+        'opacity': '0',
+        'z-index': '0'
+      }).end().fadeIn().css({
+        'opacity': '1',
+        'z-index': '1'
+      });
+      $('ol li:eq(' + index + ')').css({
+        'background-color': 'orange'
+      }).siblings().css({
+        'background-color': ''
+      });
+
+      // 点击序号切换图片
+      $('ol > li').on('click', function () {
+        $(this).css({
+          'background-color': 'orange'
+        }).siblings().css({
+          'background-color': ''
+        });
+        index = $(this).index();//获取当前点击序号的索引
+        $('ul > li:eq(' + index + ')').siblings().css({
+          'opacity': '0',
+          'z-index': '0'
+        }).end().fadeIn(300).css({
+          'opacity': '1',
+          'z-index': '1'
+        });
+      });
+      // 切换上一张
+      $('.arr-l').click(function () {
+
+        //点击切换索引
+        index--;
+        // 判断当前切换的索引是否 小于0 如果小于0 则 切换到最后一张
+        index < 0 ? $('ol>li').eq($len - 1).click() : $('ol>li').eq(index).click();
+      });
+      // 切换下一张
+      $('.arr-r').click(function () {
+        index++;
+        // 判断当前切换图片的索引是否是最后一张 如果是 则 切换到第一张
+        index > $len - 1 ? $('ol>li').eq(0).click() : $('ol>li').eq(index).click();
+      });
+
+      // 自动播放
+      var timerId;
+      autoPlay();
+      function autoPlay() {
+        if(timerId) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+          timerId = setInterval(function() {
+          $('.arr-r').click();
+        },2500);
+      }
+      //鼠标经过 停止自动播放
+      $screen.mouseenter(function() {
+        clearInterval(timerId);
+        timerId = null;
+      });
+      $screen.mouseleave(function() {
+        autoPlay();
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="screen">
+    <ul>
+      <li><img src="images/0.jpg" alt=""></li>
+      <li><img src="images/1.jpg" alt=""></li>
+      <li><img src="images/2.jpg" alt=""></li>
+      <li><img src="images/3.jpg" alt=""></li>
+      <li><img src="images/4.jpg" alt=""></li>
+      <li><img src="images/5.jpg" alt=""></li>
+    </ul>
+    <a href="#" class="arr-l"></a><a href="#" class="arr-r"></a>
+  </div>
+</body>
+
+</html>

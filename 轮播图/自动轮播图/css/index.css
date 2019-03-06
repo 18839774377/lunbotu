@@ -1,0 +1,68 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+ul, ol {
+	list-style: none;
+}
+
+img, a {
+	display: block;
+}
+
+a {
+	text-decoration: none;
+}
+
+html, body {
+	height: 100%;
+}
+
+.layout {
+	max-width: 640px;
+	min-width: 320px;
+	height: 100%;
+	margin: 0 auto;
+	/* background-color: #e4e4e4; */
+}
+
+.banner {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+ul {
+	width: 800%;
+	overflow: hidden;
+	position: relative;
+}
+
+ul li {
+	width: 12.5%;
+	float: left;
+}
+
+ul li img {
+	width: 100%;
+}
+
+ol {
+	position: absolute;
+	left: 50%;
+	bottom: 5px;
+	transform: translateX(-50%);
+}
+
+ol li {
+	float: left;
+	margin: 0 5px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	border: 1px solid #fff;
+}
+
+ol li.active {
+	background-color: #fff;
+}
